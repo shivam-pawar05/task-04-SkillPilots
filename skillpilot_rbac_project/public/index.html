@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="SkillPilot role-based access control dashboard">
+  <title>SkillPilot | RBAC Console</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">S</span><div><strong>SkillPilot</strong><small>ACCESS CONTROL</small></div></div>
+      <div class="nav-label">WORKSPACE</div>
+      <nav>
+        <button class="nav-item active" data-view="dashboard"><span>▦</span> Dashboard</button>
+        <button class="nav-item" data-view="users"><span>♙</span> Users & Roles</button>
+        <button class="nav-item" data-view="permissions"><span>▤</span> Permission Matrix</button>
+        <button class="nav-item admin-only" data-view="audit"><span>◷</span> Audit Logs</button>
+      </nav>
+      <div class="sidebar-bottom"><div class="secure-icon">✓</div><strong>Security overview</strong><p>Role-based access helps keep each department's data protected.</p><span class="status-pill"><i></i> RBAC enabled</span></div>
+    </aside>
+    <main class="main-area">
+      <header class="topbar"><div><div class="eyebrow">ADMINISTRATION / DATABASE</div><h1 id="page-title">Dashboard</h1></div><div class="profile" id="profile"><div class="avatar">?</div><div><strong>Not signed in</strong><small>Sign in to continue</small></div><button id="logout-btn" class="button ghost hidden">Sign out</button></div></header>
+      <section id="login-view" class="login-wrap">
+        <div class="login-card"><div class="login-icon">↗</div><div class="eyebrow">WELCOME BACK</div><h2>Sign in to your workspace</h2><p class="muted">Use an account created in the database to continue.</p>
+          <form id="login-form"><label for="email">Email address</label><input id="email" type="email" placeholder="admin@example.com" required autocomplete="username"><label for="password">Password</label><input id="password" type="password" placeholder="Enter your password" required autocomplete="current-password"><button class="button primary full" type="submit">Sign in <span>→</span></button><div id="login-error" class="message error hidden"></div></form>
+          <div class="login-foot"><span class="lock">▣</span> Protected by role-based access control</div>
+        </div>
+        <div class="login-side"><div class="orb orb-one"></div><div class="orb orb-two"></div><span class="tag">RBAC · MYSQL</span><h2>Right access.<br>Right people.</h2><p>A clear, auditable way to manage access across departments.</p><div class="mini-stat"><span class="mini-check">✓</span><div><strong>Least privilege</strong><small>Permissions assigned by role</small></div></div><div class="mini-stat"><span class="mini-check">✓</span><div><strong>Department boundaries</strong><small>Access scoped to team membership</small></div></div></div>
+      </section>
+      <section id="content-view" class="hidden">
+        <div id="notice" class="message hidden"></div>
+        <div id="dashboard-panel" class="view-panel">
+          <div class="welcome-row"><div><h2>Welcome to your workspace</h2><p class="muted">Here's a snapshot of your access-control environment.</p></div><span class="date-chip" id="today"></span></div>
+          <div class="stats-grid"><article class="stat-card"><div class="stat-top"><span>Departments</span><span class="stat-icon violet">▦</span></div><strong id="stat-departments">—</strong><small>Organizational units</small></article><article class="stat-card"><div class="stat-top"><span>Application roles</span><span class="stat-icon blue">♙</span></div><strong id="stat-roles">—</strong><small>Defined access profiles</small></article><article class="stat-card"><div class="stat-top"><span>Visible users</span><span class="stat-icon green">◎</span></div><strong id="stat-users">—</strong><small>Based on your access</small></article></div>
+          <div class="section-card"><div class="section-heading"><div><h3>Access control principles</h3><p class="muted">How this project protects database access</p></div><span class="pill">ACTIVE POLICY</span></div><div class="principles"><div><span class="principle-icon">01</span><h4>Role-based access</h4><p>Privileges are assigned to roles, then roles are assigned to users.</p></div><div><span class="principle-icon">02</span><h4>Least privilege</h4><p>Each role receives only the access needed for its responsibilities.</p></div><div><span class="principle-icon">03</span><h4>Accountability</h4><p>Sign-in and administrative actions are recorded for review.</p></div></div></div>
+          <div class="section-card"><div class="section-heading"><div><h3>Quick actions</h3><p class="muted">Explore the main project modules</p></div></div><div class="quick-actions"><button class="quick-action" data-view="users"><span>♙</span><div><strong>View users</strong><small>Review department membership</small></div><b>→</b></button><button class="quick-action" data-view="permissions"><span>▤</span><div><strong>View permissions</strong><small>Compare roles and privileges</small></div><b>→</b></button></div></div>
+        </div>
+        <div id="users-panel" class="view-panel hidden"><div class="section-card"><div class="section-heading"><div><h3>Users & roles</h3><p class="muted">User visibility depends on your role and department.</p></div><button id="add-user-btn" class="button primary admin-only">＋ Add user</button></div><div class="table-wrap"><table><thead><tr><th>USER</th><th>DEPARTMENT</th><th>ROLE</th><th>STATUS</th></tr></thead><tbody id="users-body"><tr><td colspan="4">Loading users…</td></tr></tbody></table></div></div>
+          <div id="user-form-card" class="section-card hidden"><div class="section-heading"><div><h3>Create a user</h3><p class="muted">Only Admin can create accounts.</p></div><button id="cancel-user" class="button ghost">Cancel</button></div><form id="user-form" class="user-form"><div><label for="new-name">Full name</label><input id="new-name" required placeholder="Alex Morgan"></div><div><label for="new-email">Email</label><input id="new-email" type="email" required placeholder="alex@example.com"></div><div><label for="new-password">Temporary password</label><input id="new-password" type="password" minlength="8" required placeholder="At least 8 characters"></div><div><label for="new-department">Department</label><select id="new-department" required></select></div><div><label for="new-role">Role</label><select id="new-role" required></select></div><div class="form-submit"><button class="button primary" type="submit">Create account</button></div><div id="user-form-message" class="message hidden"></div></form></div>
+        </div>
+        <div id="permissions-panel" class="view-panel hidden"><div class="section-card"><div class="section-heading"><div><h3>Role-privilege matrix</h3><p class="muted">A read-friendly view of the seeded permissions.</p></div><span class="pill">LEAST PRIVILEGE</span></div><div class="table-wrap"><table class="matrix-table"><thead><tr><th>ROLE</th><th>RESOURCE</th><th>READ</th><th>CREATE</th><th>UPDATE</th><th>DELETE</th></tr></thead><tbody id="permissions-body"><tr><td colspan="6">Loading permissions…</td></tr></tbody></table></div><div class="legend"><span><i class="yes-dot"></i> Allowed</span><span><i class="no-dot"></i> Not granted</span></div></div></div>
+        <div id="audit-panel" class="view-panel hidden"><div class="section-card"><div class="section-heading"><div><h3>Audit logs</h3><p class="muted">Most recent administrative and authentication events.</p></div><span class="pill">ADMIN ONLY</span></div><div class="table-wrap"><table><thead><tr><th>TIME</th><th>USER</th><th>ACTION</th><th>DETAIL</th></tr></thead><tbody id="audit-body"><tr><td colspan="4">Loading audit logs…</td></tr></tbody></table></div></div></div>
+      </section>
+      <footer><span>SkillPilot RBAC Project</span><span>Secure access · Department-aware · Auditable</span></footer>
+    </main>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>
